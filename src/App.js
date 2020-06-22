@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from "react"
 import './App.css';
+import Child from './Child'
+import LangControls from './LangControls'
+import LanguageContext from './LanguageContext'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class AppLang extends Component {
+
+    state = {
+        lang: window.navigator.language
+    };
+
+    handleSetLang = (lang) => {
+        this.setState({ lang })
+    };
+
+    render() {
+        const contextValue = {
+            lang: this.state.lang,
+            setLang: this.handleSetLang,
+        }
+        console.log(contextValue)
+        return (
+            <LanguageContext.Provider value={contextValue}>
+                <div className='AppLang'>
+                    <LangControls
+                        onSetLang={this.handleSetLang}
+                    />
+                    <Child />
+                </div>
+            </LanguageContext.Provider>
+        );
+    }
 }
-
-export default App;
